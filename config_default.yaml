@@ -1,0 +1,49 @@
+# Default configuration for the feature extraction and classification pipeline
+
+# Data paths
+data:
+  root: "organized_data"
+  types: ["A", "P"]  # Data types to process
+
+# Step 1: Feature Extraction
+feature_extraction:
+  # No additional parameters needed
+
+# Step 2: Normalization
+normalization:
+  # Handled automatically
+
+# Step 3: U-test Feature Selection
+utest:
+  p_threshold: 0.05  # P-value threshold for feature selection
+
+# Step 4: MRMR Feature Selection
+mrmr:
+  n_features: 50  # Number of features to select
+  n_jobs: -1      # Number of parallel jobs (-1 for all CPUs)
+
+# Step 5: ELM Training
+elm:
+  n_hidden_min: 2      # Minimum hidden neurons
+  n_hidden_max: 5      # Maximum hidden neurons
+  n_folds: 5           # Number of CV folds
+  n_trials: 100        # Number of random trials
+  activation: "sigmoid"  # Activation function: 'sigmoid' or 'tanh'
+
+# Step 6: Evaluation
+evaluation:
+  use_train_cutoff: true  # Use training set cutoff for test sets
+  export_csv: true        # Export results to CSV
+  export_mat: true        # Export results to .mat
+
+# Step 7: ROC Analysis
+roc_analysis:
+  plot_roc: true          # Generate ROC curve plots
+  confidence_level: 0.95  # Confidence interval level
+  export_csv: true        # Export data for R analysis
+  figure_dpi: 300         # DPI for saved figures
+
+# Logging
+logging:
+  log_file: "pipeline.log"
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
