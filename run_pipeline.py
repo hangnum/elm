@@ -44,6 +44,7 @@ def run_pipeline_with_config(
     n_hidden_max = elm_config.get('n_hidden_max', 5)
     n_folds = elm_config.get('n_folds', 5)
     n_trials = elm_config.get('n_trials', 100)
+    random_state = elm_config.get('random_state', 42)
     
     eval_config = config.get('evaluation', {})
     roc_config = config.get('roc_analysis', {})
@@ -147,7 +148,8 @@ def run_pipeline_with_config(
             '--n_hidden_min', str(n_hidden_min),
             '--n_hidden_max', str(n_hidden_max),
             '--n_folds', str(n_folds),
-            '--n_trials', str(n_trials)
+            '--n_trials', str(n_trials),
+            '--random_state', str(random_state)
         ]
         if log_file:
             cmd.extend(['--log_file', log_file])
@@ -232,6 +234,8 @@ def main():
                         help='Number of CV folds (default: 5)')
     parser.add_argument('--n_trials', type=int, default=None,
                         help='Number of ELM trials (default: 100)')
+    parser.add_argument('--random_state', type=int, default=None,
+                        help='Random seed (default: 42)')
     parser.add_argument('--log_file', type=str, default=None,
                         help='Log file path (default: pipeline.log)')
     parser.add_argument('--skip_evaluation', action='store_true',
@@ -273,6 +277,8 @@ def main():
         config.setdefault('elm', {})['n_folds'] = args.n_folds
     if args.n_trials is not None:
         config.setdefault('elm', {})['n_trials'] = args.n_trials
+    if args.random_state is not None:
+        config.setdefault('elm', {})['random_state'] = args.random_state
     
     # Setup logging
     logger = setup_logging(log_file)

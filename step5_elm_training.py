@@ -298,12 +298,17 @@ def main():
                         help='Number of random trials (default: 100)')
     parser.add_argument('--log_file', type=str, default=None,
                         help='Log file path')
+    parser.add_argument('--random_state', type=int, default=42,
+                        help='Random seed for reproducibility (default: 42)')
     
     args = parser.parse_args()
     
     # Setup logging
     logger = setup_logging(args.log_file)
     logger.info("Starting Step 5: ELM Training")
+    
+    # Set global random seed
+    np.random.seed(args.random_state)
     
     # Run ELM training
     elm_training(

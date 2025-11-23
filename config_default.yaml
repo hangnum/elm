@@ -28,6 +28,7 @@ elm:
   n_hidden_max: 5      # Maximum hidden neurons
   n_folds: 5           # Number of CV folds
   n_trials: 100        # Number of random trials
+  random_state: 42     # Random seed for reproducibility
   activation: "sigmoid"  # Activation function: 'sigmoid' or 'tanh'
 
 # Step 6: Evaluation
