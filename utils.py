@@ -146,9 +146,9 @@ def youden_index(y_true: np.ndarray, y_score: np.ndarray) -> Tuple[float, float]
     # Youden's index = sensitivity + specificity - 1 = tpr - fpr
     youden_idx = tpr - fpr
     optimal_idx = np.argmax(youden_idx)
-    optimal_cutoff = thresholds[optimal_idx]
+    optimal_cutoff = float(thresholds[optimal_idx])
     
-    return optimal_cutoff, auc_score
+    return optimal_cutoff, float(auc_score)
 
 
 def handle_inf_nan(data: np.ndarray, inf_value: float = 1.0, nan_value: float = 0.0) -> np.ndarray:

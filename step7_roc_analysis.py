@@ -10,14 +10,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from sklearn.metrics import roc_curve, auc, roc_auc_score
 from scipy import stats
 
 from utils import setup_logging, load_mat
 
 
-def calculate_auc_ci(y_true: np.ndarray, y_scores: np.ndarray, confidence: float = 0.95) -> tuple:
+def calculate_auc_ci(y_true: np.ndarray, y_scores: np.ndarray, confidence: float = 0.95) -> Tuple[float, float, float]:
     """
     Calculate AUC with confidence interval using DeLong method approximation.
     
@@ -32,7 +32,7 @@ def calculate_auc_ci(y_true: np.ndarray, y_scores: np.ndarray, confidence: float
     from sklearn.metrics import roc_auc_score
     
     # Calculate AUC
-    auc_value = roc_auc_score(y_true, y_scores)
+    auc_value = float(roc_auc_score(y_true, y_scores))
     
     # Bootstrap for confidence interval
     n_bootstraps = 1000
@@ -46,13 +46,13 @@ def calculate_auc_ci(y_true: np.ndarray, y_scores: np.ndarray, confidence: float
             # Skip if bootstrap sample has only one class
             continue
         
-        auc_boot = roc_auc_score(y_true[indices], y_scores[indices])
+        auc_boot = float(roc_auc_score(y_true[indices], y_scores[indices]))
         bootstrapped_aucs.append(auc_boot)
     
     # Calculate confidence interval
     alpha = 1 - confidence
-    ci_lower = np.percentile(bootstrapped_aucs, alpha / 2 * 100)
-    ci_upper = np.percentile(bootstrapped_aucs, (1 - alpha / 2) * 100)
+    ci_lower = float(np.percentile(bootstrapped_aucs, alpha / 2 * 100))
+    ci_upper = float(np.percentile(bootstrapped_aucs, (1 - alpha / 2) * 100))
     
     return auc_value, ci_lower, ci_upper
 
